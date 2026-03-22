@@ -18,6 +18,8 @@ Production-grade Habit Tracker app built with Kotlin, Jetpack Compose, MVVM, Roo
 - Reminder scheduling per habit (enable/disable, daily time, custom message)
 - In-form "Send Test Reminder Now" action for quick notification verification
 - Statistics dashboard with total completions, current/longest streak, weekly bar chart, and monthly line chart
+
+<!-- Workflow trigger -->
 - Dark mode support (Material 3 + dynamic color, System/Light/Dark manual toggle)
 
 ## Home Screen
