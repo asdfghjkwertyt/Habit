@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Android: One-Click Install + Launch",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "echo \"Android app launched.\"",
+      "preLaunchTask": "Android: Install + Launch"
+    },
+    {
+      "name": "Android: Filtered Logcat",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "adb logcat | grep -E \"HabitTracker|AndroidRuntime\""
+    }
+  ]
+}

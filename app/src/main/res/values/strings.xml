@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Habit Tracker</string>
+    <string name="widget_description">Habit status and quick complete action</string>
+    <string name="widget_description_dark">Dark habit widget with quick complete action</string>
+    <string name="widget_description_list">Habit list widget with quick complete actions</string>
+    <string name="habit_glance_widget_description">Modern glance widget with multi-habit cards, progress, and quick actions</string>
+
+    <string name="quest_hub_title">Quest Hub</string>
+    <string name="quest_hub_subtitle">Keep your chain alive and stack bonus XP</string>
+    <string name="quest_loading_data">Loading quest data...</string>
+    <string name="quest_error_title">Unable to load quests</string>
+    <string name="quest_error_unknown">Unknown error</string>
+    <string name="quest_retry">Retry</string>
+    <string name="quest_recent_log">Recent Quest Log</string>
+
+    <string name="quest_weekly_chain_title">Weekly Quest Chain</string>
+    <string name="quest_weekly_chain_complete">Chain complete. Reward unlocked</string>
+    <string name="quest_weekly_chain_progress">%1$d/%2$d quest days this week</string>
+    <string name="quest_weekly_chain_streak">Current streak %1$dd</string>
+    <string name="quest_weekly_chain_target_reward">+%1$d XP target reward</string>
+    <string name="quest_weekly_chain_active_bonus">+%1$d XP active</string>
+
+    <string name="quest_daily_spotlight_title">Daily Spotlight</string>
+    <string name="quest_daily_spotlight_completed">Completed today. +%1$d XP awarded</string>
+    <string name="quest_daily_spotlight_progress">%1$d/%2$d progress · +%3$d XP</string>
+    <string name="quest_daily_type_triple_title">Daily Quest: Triple Check-in</string>
+    <string name="quest_daily_type_triple_desc">Complete 3 habit check-ins in one day</string>
+    <string name="quest_daily_type_multi_title">Daily Quest: Multi-Habit Day</string>
+    <string name="quest_daily_type_multi_desc">Complete 2 different habits in one day</string>
+    <string name="quest_daily_type_perfect_title">Daily Quest: Perfect Daily Run</string>
+    <string name="quest_daily_type_perfect_desc">Complete all daily habits scheduled in that day</string>
+
+    <string name="quest_trend_title">14-Day Quest Momentum</string>
+    <string name="quest_trend_hint">Up points mark completed quest days. Bottom points indicate misses.</string>
+    <string name="quest_trend_tap_hint">Tap any chart point to open that day details.</string>
+    <string name="quest_tooltip_done">%1$s: Done +%2$d</string>
+    <string name="quest_tooltip_miss">%1$s: Miss</string>
+
+    <string name="quest_row_tap_details">Tap for day details</string>
+    <string name="quest_done_with_xp">Done +%1$d</string>
+    <string name="quest_miss">Miss</string>
+
+    <string name="quest_day_details_title">Quest Day Details</string>
+    <string name="quest_day_completed">Quest completed (+%1$d XP)</string>
+    <string name="quest_day_missed">Quest missed</string>
+    <string name="quest_completed_habits_title">Completed Habits</string>
+    <string name="quest_no_habits_completed">No habits completed.</string>
+    <string name="quest_missed_daily_habits_title">Missed Daily Habits</string>
+    <string name="quest_no_missed_daily_habits">No missed daily habits.</string>
+    <string name="quest_more_count">+%1$d more</string>
+    <string name="quest_tip_open_edit">Tip: tap a habit name to open edit screen.</string>
+    <string name="quest_close">Close</string>
+    <string name="quest_bulleted_habit">- %1$s</string>
+
+    <string name="reminder_notification_title">Habit Reminder</string>
+    <string name="reminder_notification_text">Do not forget to complete %1$s</string>
+    <string name="reminder_action_mark_done">Mark as Done</string>
+    <string name="reminder_action_snooze">Snooze 15m</string>
+    <string name="reminder_action_snooze_5m">Snooze 5m</string>
+    <string name="reminder_action_snooze_15m">Snooze 15m</string>
+    <string name="reminder_action_snooze_30m">Snooze 30m</string>
+    <string name="reminder_group_title">Habit reminders</string>
+    <string name="reminder_group_text">%1$d active reminders</string>
+    <string name="reminder_group_summary">%1$d pending habits</string>
+</resources>

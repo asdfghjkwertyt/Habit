@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:name=".HabitTrackerApp"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@android:drawable/ic_menu_today"
+        android:label="Habit Tracker"
+        android:roundIcon="@android:drawable/ic_menu_today"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.HabitTracker">
+
+        <receiver
+            android:name=".widget.HabitWidgetProvider"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.HabitWidgetDarkProvider"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider_dark" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.HabitListWidgetProvider"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_list_provider" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.HabitGlanceWidgetReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/habit_glance_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".notifications.ReminderActionReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".widget.HabitListRemoteViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.HabitTracker">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
