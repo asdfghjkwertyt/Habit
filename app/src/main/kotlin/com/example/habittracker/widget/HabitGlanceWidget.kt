@@ -3,14 +3,15 @@ package com.example.habittracker.widget
 import android.content.Context
 import androidx.compose.ui.graphics.Color
 import androidx.glance.GlanceId
+import androidx.glance.GlanceModifier
+import androidx.glance.action.ActionParameters
+import androidx.glance.action.actionParametersOf
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import androidx.glance.appwidget.GlanceModifier
+import androidx.glance.appwidget.LinearProgressIndicator
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.updateAll
 import androidx.glance.appwidget.action.ActionCallback
-import androidx.glance.appwidget.action.ActionParameters
-import androidx.glance.appwidget.action.actionParametersOf
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
@@ -19,12 +20,11 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
-import androidx.glance.material.Button
-import androidx.glance.material.ButtonColors
-import androidx.glance.material.LinearProgressIndicator
+import androidx.glance.Button
+import androidx.glance.ButtonDefaults
 import androidx.glance.text.Text
 import androidx.glance.unit.ColorProvider
-import androidx.glance.unit.dp
+import androidx.glance.unit.Dp
 import com.example.habittracker.domain.model.Habit
 import com.example.habittracker.domain.repository.HabitRepository
 import com.example.habittracker.util.DateUtils
@@ -88,22 +88,21 @@ class HabitGlanceWidget : GlanceAppWidget() {
             Column(
                 modifier = GlanceModifier
                     .fillMaxSize()
-                    .padding(12.dp)
+                    .padding(Dp(12f))
             ) {
                 Text(
-                    text = "Habit Tracker",
-                    color = ColorProvider(Color(0xFF0D1E52))
+                    text = "Habit Tracker"
                 )
 
                 Spacer(modifier = GlanceModifier.height(8.dp))
 
                 if (items.isEmpty()) {
-                    Text(text = "No habits yet. Add one in app.", color = ColorProvider(Color(0xFF4A555E)))
+                    Text(text = "No habits yet. Add one in app.")
                 } else {
                     items.forEach { habit ->
                         Column(modifier = GlanceModifier.fillMaxWidth().padding(bottom = 10.dp)) {
                             Row(modifier = GlanceModifier.fillMaxWidth()) {
-                                Text(text = habit.name, color = ColorProvider(Color(0xFF11205C)))
+                                Text(text = habit.name)
                             }
 
                             Spacer(modifier = GlanceModifier.height(4.dp))
@@ -122,7 +121,7 @@ class HabitGlanceWidget : GlanceAppWidget() {
                                 onClick = actionRunCallback<CompleteHabitAction>(
                                     parameters = actionParametersOf(HabitIdParamKey to habit.habitId)
                                 ),
-                                colors = ButtonColors(containerColor = ColorProvider(Color(0xFF4C72E8))),
+                                colors = ButtonDefaults.buttonColors(backgroundColor = ColorProvider(Color(0xFF4C72E8))),
                                 enabled = !habit.completedToday,
                                 modifier = GlanceModifier.fillMaxWidth().height(32.dp)
                             )

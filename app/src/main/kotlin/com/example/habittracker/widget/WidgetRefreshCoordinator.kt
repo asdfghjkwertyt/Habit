@@ -9,7 +9,7 @@ import com.example.habittracker.R
 
 internal object WidgetRefreshCoordinator {
 
-    fun refreshAll(context: Context) {
+    suspend fun refreshAll(context: Context) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
 
         refreshProvider(context, appWidgetManager, HabitWidgetProvider::class.java)
