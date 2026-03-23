@@ -14,12 +14,15 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.platform.LocalConfiguration
 
 @Composable
 fun AppBackground(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
@@ -84,5 +87,19 @@ fun GlassCard(
                 .padding(contentPadding),
             content = content
         )
+    }
+}
+
+@Composable
+fun adaptiveContentPadding(vertical: Dp = 16.dp): PaddingValues {
+    val config = LocalConfiguration.current
+    val horizontal = when (config.screenWidthDp) {
+        in 0..599 -> 16.dp
+        in 600..839 -> 20.dp
+        in 840..1199 -> 28.dp
+        else -> 36.dp
+    }
+    return remember(config.screenWidthDp, vertical) {
+        PaddingValues(horizontal = horizontal, vertical = vertical)
     }
 }

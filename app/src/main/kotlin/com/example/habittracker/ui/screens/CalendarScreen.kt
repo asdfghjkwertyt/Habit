@@ -62,6 +62,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
+import com.example.habittracker.ui.components.adaptiveContentPadding
 import com.example.habittracker.ui.viewmodel.HabitUiStatus
 import com.example.habittracker.ui.viewmodel.HabitUiState
 import com.example.habittracker.util.DateUtils
@@ -173,6 +174,7 @@ fun CalendarScreen(
             }
 
             HabitUiStatus.Success -> {
+                val contentPadding = adaptiveContentPadding(vertical = 18.dp)
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -181,7 +183,7 @@ fun CalendarScreen(
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(16.dp),
+                        contentPadding = contentPadding,
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         item {

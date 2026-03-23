@@ -68,6 +68,7 @@ import com.example.habittracker.ui.viewmodel.HabitUiState
 import com.example.habittracker.ui.viewmodel.HabitUiStatus
 import com.example.habittracker.ui.viewmodel.QuestHistoryEntry
 import com.example.habittracker.ui.viewmodel.WeeklyQuestChainStatus
+import com.example.habittracker.ui.components.adaptiveContentPadding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.delay
@@ -133,11 +134,12 @@ fun QuestScreen(
             }
 
             HabitUiStatus.Success -> {
+                val contentPadding = adaptiveContentPadding(vertical = 18.dp)
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(padding),
-                    contentPadding = PaddingValues(16.dp),
+                    contentPadding = contentPadding,
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     item {

@@ -80,6 +80,7 @@ import com.example.habittracker.domain.model.AchievementProgress
 import com.example.habittracker.util.DateUtils
 import com.example.habittracker.ui.viewmodel.HabitUiStatus
 import com.example.habittracker.ui.viewmodel.HabitUiState
+import com.example.habittracker.ui.components.adaptiveContentPadding
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
@@ -216,11 +217,12 @@ fun StatsScreen(
             }
 
             HabitUiStatus.Success -> {
+                val contentPadding = adaptiveContentPadding(vertical = 18.dp)
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(padding),
-                    contentPadding = PaddingValues(16.dp),
+                    contentPadding = contentPadding,
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     item {

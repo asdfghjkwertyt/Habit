@@ -66,6 +66,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import com.example.habittracker.domain.model.Habit
 import com.example.habittracker.domain.model.HabitWithStats
+import com.example.habittracker.ui.components.adaptiveContentPadding
 import com.example.habittracker.ui.components.GlassCard
 import com.example.habittracker.ui.theme.ThemeMode
 import com.example.habittracker.ui.viewmodel.HomeLayoutMode
@@ -156,11 +157,12 @@ fun HomeScreen(
     ) { padding ->
         when (state.status) {
             HabitUiStatus.Loading -> {
+                val contentPadding = adaptiveContentPadding()
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(padding)
-                        .padding(24.dp),
+                        .padding(contentPadding),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -170,11 +172,12 @@ fun HomeScreen(
             }
 
             HabitUiStatus.Error -> {
+                val contentPadding = adaptiveContentPadding()
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(padding)
-                        .padding(24.dp),
+                        .padding(contentPadding),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -187,6 +190,7 @@ fun HomeScreen(
             }
 
             HabitUiStatus.Success -> {
+                val contentPadding = adaptiveContentPadding()
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -196,7 +200,7 @@ fun HomeScreen(
                     if (state.habits.isEmpty()) {
                         EmptyHomeState(modifier = Modifier.fillMaxSize())
                     } else {
-                        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                        Column(modifier = Modifier.fillMaxSize().padding(contentPadding)) {
                             AnimatedVisibility(
                                 visible = state.levelUpMessage != null,
                                 enter = fadeIn() + scaleIn(initialScale = 0.92f),

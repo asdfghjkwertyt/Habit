@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.habittracker.ui.components.HabitCard
+import com.example.habittracker.ui.components.adaptiveContentPadding
 import com.example.habittracker.ui.viewmodel.HabitUiStatus
 import com.example.habittracker.ui.viewmodel.HabitUiState
 import com.example.habittracker.util.DateUtils
@@ -122,9 +123,10 @@ fun HabitListScreen(
                             .padding(padding)
                             .pullRefresh(pullRefreshState)
                     ) {
+                        val contentPadding = adaptiveContentPadding()
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(16.dp),
+                            contentPadding = contentPadding,
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             items(state.habits, key = { it.id }) { habit ->
