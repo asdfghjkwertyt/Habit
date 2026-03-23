@@ -110,8 +110,8 @@ class HabitGlanceWidget : GlanceAppWidget() {
                             LinearProgressIndicator(
                                 progress = habit.completionRate,
                                 modifier = GlanceModifier.fillMaxWidth().height(6.dp),
-                                trackColor = ColorProvider(Color(0xFFE5EBF6)),
-                                progressColor = ColorProvider(Color(0xFF4C72E8))
+                                backgroundColor = ColorProvider(Color(0xFFE5EBF6)),
+                                color = ColorProvider(Color(0xFF4C72E8))
                             )
 
                             Spacer(modifier = GlanceModifier.height(6.dp))
