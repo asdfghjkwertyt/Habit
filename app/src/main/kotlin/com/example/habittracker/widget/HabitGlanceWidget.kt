@@ -24,7 +24,7 @@ import androidx.glance.Button
 import androidx.glance.ButtonDefaults
 import androidx.glance.text.Text
 import androidx.glance.unit.ColorProvider
-import androidx.glance.unit.Dp
+import androidx.glance.unit.dp
 import com.example.habittracker.domain.model.Habit
 import com.example.habittracker.domain.repository.HabitRepository
 import com.example.habittracker.util.DateUtils
@@ -88,7 +88,7 @@ class HabitGlanceWidget : GlanceAppWidget() {
             Column(
                 modifier = GlanceModifier
                     .fillMaxSize()
-                    .padding(Dp(12f))
+                    .padding(12.dp)
             ) {
                 Text(
                     text = "Habit Tracker"
