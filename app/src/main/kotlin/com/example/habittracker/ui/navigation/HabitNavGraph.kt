@@ -36,6 +36,10 @@ import com.example.habittracker.ui.screens.StatsScreen
 import com.example.habittracker.ui.theme.HabitTrackerTheme
 import com.example.habittracker.ui.viewmodel.HabitViewModel
 import com.example.habittracker.util.DateUtils
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.graphics.Color
+import com.example.habittracker.ui.components.AppBackground
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun HabitNavGraph(modifier: Modifier = Modifier) {
@@ -61,64 +65,70 @@ fun HabitNavGraph(modifier: Modifier = Modifier) {
     }
 
     HabitTrackerTheme(themeMode = state.themeMode) {
-        Scaffold(
-            modifier = modifier,
-            bottomBar = {
-                val backStack by navController.currentBackStackEntryAsState()
-                val currentDestination = backStack?.destination
-                val showBottomBar = currentDestination
-                    ?.hierarchy
-                    ?.any { destination -> destination.route in topLevelRouteStrings }
-                    ?: false
+        AppBackground {
+            Scaffold(
+                modifier = modifier,
+                containerColor = Color.Transparent,
+                contentColor = MaterialTheme.colorScheme.onBackground,
+                bottomBar = {
+                    val backStack by navController.currentBackStackEntryAsState()
+                    val currentDestination = backStack?.destination
+                    val showBottomBar = currentDestination
+                        ?.hierarchy
+                        ?.any { destination -> destination.route in topLevelRouteStrings }
+                        ?: false
 
-                if (showBottomBar) {
-                    NavigationBar {
-                        topLevelRoutes.forEach { route ->
-                            val selected = currentDestination?.hierarchy?.any { it.route == route.route } == true
-                            NavigationBarItem(
-                                selected = selected,
-                                onClick = {
-                                    viewModel.setPreferredTopLevelRoute(route.route)
-                                    navController.navigate(route.route) {
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            saveState = true
+                    if (showBottomBar) {
+                        NavigationBar(
+                            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.6f),
+                            tonalElevation = 0.dp
+                        ) {
+                            topLevelRoutes.forEach { route ->
+                                val selected = currentDestination?.hierarchy?.any { it.route == route.route } == true
+                                NavigationBarItem(
+                                    selected = selected,
+                                    onClick = {
+                                        viewModel.setPreferredTopLevelRoute(route.route)
+                                        navController.navigate(route.route) {
+                                            popUpTo(navController.graph.findStartDestination().id) {
+                                                saveState = true
+                                            }
+                                            launchSingleTop = true
+                                            restoreState = true
                                         }
-                                        launchSingleTop = true
-                                        restoreState = true
-                                    }
-                                },
-                                icon = {
-                                    val icon = when (route) {
-                                        NavRoutes.Habits -> Icons.AutoMirrored.Filled.List
-                                        NavRoutes.Calendar -> Icons.Default.CalendarMonth
-                                        NavRoutes.Stats -> Icons.Default.QueryStats
-                                        NavRoutes.Quest -> Icons.Default.EmojiEvents
-                                        else -> Icons.AutoMirrored.Filled.List
-                                    }
-                                    Icon(icon, contentDescription = route.route)
-                                },
-                                label = {
-                                    Text(
-                                        when (route) {
-                                            NavRoutes.Habits -> "Habits"
-                                            NavRoutes.Calendar -> "Calendar"
-                                            NavRoutes.Stats -> "Stats"
-                                            NavRoutes.Quest -> "Quest"
-                                            else -> "Habits"
+                                    },
+                                    icon = {
+                                        val icon = when (route) {
+                                            NavRoutes.Habits -> Icons.AutoMirrored.Filled.List
+                                            NavRoutes.Calendar -> Icons.Default.CalendarMonth
+                                            NavRoutes.Stats -> Icons.Default.QueryStats
+                                            NavRoutes.Quest -> Icons.Default.EmojiEvents
+                                            else -> Icons.AutoMirrored.Filled.List
                                         }
-                                    )
-                                }
-                            )
+                                        Icon(icon, contentDescription = route.route)
+                                    },
+                                    label = {
+                                        Text(
+                                            when (route) {
+                                                NavRoutes.Habits -> "Habits"
+                                                NavRoutes.Calendar -> "Calendar"
+                                                NavRoutes.Stats -> "Stats"
+                                                NavRoutes.Quest -> "Quest"
+                                                else -> "Habits"
+                                            }
+                                        )
+                                    }
+                                )
+                            }
                         }
                     }
                 }
-            }
-        ) { padding ->
-            NavHost(
-                navController = navController,
-                startDestination = NavRoutes.Habits.route,
-                modifier = Modifier.padding(padding)
-            ) {
+            ) { padding ->
+                NavHost(
+                    navController = navController,
+                    startDestination = NavRoutes.Habits.route,
+                    modifier = Modifier.padding(padding)
+                ) {
             composable(NavRoutes.Habits.route) {
                 HomeScreen(
                     state = state,

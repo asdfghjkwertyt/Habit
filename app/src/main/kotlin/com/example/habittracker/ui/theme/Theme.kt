@@ -10,21 +10,39 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.material3.Shapes
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 
 private val DarkColors = darkColorScheme(
-    primary = Mint,
-    secondary = Clay,
-    tertiary = SeedGreen,
-    background = Charcoal,
-    surface = Charcoal
+    primary = Royal,
+    onPrimary = Color.Black,
+    secondary = NeonMint,
+    tertiary = Sunset,
+    background = Midnight,
+    surface = Ink,
+    surfaceVariant = Ink.copy(alpha = 0.8f),
+    outline = GlassStrokeDark,
+    outlineVariant = GlassStrokeDark
 )
 
 private val LightColors = lightColorScheme(
-    primary = SeedGreen,
-    secondary = Clay,
-    tertiary = DeepGreen,
-    background = Sand,
-    surface = Sand
+    primary = Royal,
+    onPrimary = Color.White,
+    secondary = NeonMint,
+    tertiary = Sunset,
+    background = Mist,
+    surface = Color.White,
+    surfaceVariant = GlassLight,
+    outline = GlassStroke,
+    outlineVariant = GlassStroke
+)
+
+val AppShapes = Shapes(
+    small = RoundedCornerShape(14.dp),
+    medium = RoundedCornerShape(20.dp),
+    large = RoundedCornerShape(28.dp)
 )
 
 @Composable
@@ -52,6 +70,7 @@ fun HabitTrackerTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = AppTypography,
+        shapes = AppShapes,
         content = content
     )
 }

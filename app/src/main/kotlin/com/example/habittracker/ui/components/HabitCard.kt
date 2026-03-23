@@ -6,9 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,8 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.foundation.layout.PaddingValues
 import com.example.habittracker.domain.model.Habit
 import com.example.habittracker.domain.model.HabitWithStats
+import com.example.habittracker.ui.components.GlassCard
 
 @Composable
 fun HabitCard(
@@ -35,18 +35,23 @@ fun HabitCard(
     onEdit: () -> Unit,
     onDelete: () -> Unit
 ) {
-    Card(
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
-        shape = RoundedCornerShape(18.dp),
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+    val accent = runCatching { Color(android.graphics.Color.parseColor(habit.colorHex)) }
+        .getOrElse { MaterialTheme.colorScheme.primary }
+
+    GlassCard(modifier = Modifier.fillMaxWidth()) {
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(text = habit.name, style = MaterialTheme.typography.titleMedium)
-                    Text(text = habit.description, style = MaterialTheme.typography.bodyMedium)
+                    if (habit.description.isNotBlank()) {
+                        Text(text = habit.description, style = MaterialTheme.typography.bodyMedium)
+                    }
                 }
-                Column(horizontalAlignment = Alignment.End) {
+                Row {
                     IconButton(onClick = onEdit) {
                         Icon(Icons.Default.Edit, contentDescription = "Edit")
                     }
@@ -57,10 +62,10 @@ fun HabitCard(
             }
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
-                TextButton(onClick = {}) {
-                    Text("Current streak: ${stats?.currentStreak ?: 0}")
+                TextButton(onClick = {}, contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp)) {
+                    Text("Current: ${stats?.currentStreak ?: 0} 🔥")
                 }
-                TextButton(onClick = {}) {
+                TextButton(onClick = {}, contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp)) {
                     Text("Longest: ${stats?.longestStreak ?: 0}")
                 }
             }
@@ -68,16 +73,19 @@ fun HabitCard(
             Row(
                 modifier = Modifier
                     .background(
-                        color = Color(android.graphics.Color.parseColor(habit.colorHex)).copy(alpha = 0.18f),
+                        brush = Brush.horizontalGradient(
+                            listOf(accent.copy(alpha = 0.26f), MaterialTheme.colorScheme.surface)
+                        ),
                         shape = RoundedCornerShape(12.dp)
                     )
-                    .padding(horizontal = 10.dp, vertical = 6.dp)
+                    .padding(horizontal = 10.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Checkbox(checked = isCompletedToday, onCheckedChange = onToggleToday)
                 Text(
                     text = if (isCompletedToday) "Completed today" else "Mark as done today",
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(top = 10.dp)
+                    modifier = Modifier.padding(start = 6.dp)
                 )
             }
         }

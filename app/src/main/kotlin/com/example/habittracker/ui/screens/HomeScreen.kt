@@ -42,8 +42,6 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.ViewModule
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -58,6 +56,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -67,6 +66,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import com.example.habittracker.domain.model.Habit
 import com.example.habittracker.domain.model.HabitWithStats
+import com.example.habittracker.ui.components.GlassCard
 import com.example.habittracker.ui.theme.ThemeMode
 import com.example.habittracker.ui.viewmodel.HomeLayoutMode
 import com.example.habittracker.ui.viewmodel.HabitUiState
@@ -114,6 +114,10 @@ fun HomeScreen(
                         )
                     }
                 },
+                colors = TopAppBarDefaults.mediumTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.65f),
+                    scrolledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.75f)
+                ),
                 actions = {
                     IconButton(onClick = { onThemeModeChange(nextThemeMode(state.themeMode)) }) {
                         val icon = when (state.themeMode) {
@@ -141,7 +145,11 @@ fun HomeScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = onAddHabit) {
+            FloatingActionButton(
+                onClick = onAddHabit,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add habit")
             }
         }
@@ -299,15 +307,11 @@ private fun LevelUpCelebrationCard(
     message: String,
     modifier: Modifier = Modifier
 ) {
-    Card(
-        modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
-    ) {
+    GlassCard(modifier = modifier, contentPadding = PaddingValues(horizontal = 16.dp, vertical = 14.dp)) {
         Text(
             text = message,
-            modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onTertiaryContainer
+            color = MaterialTheme.colorScheme.onPrimary
         )
     }
 }
@@ -318,13 +322,10 @@ private fun GamificationCard(
     modifier: Modifier = Modifier
 ) {
     val game = state.gamification
-    Card(
-        modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-    ) {
+    GlassCard(modifier = modifier) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(14.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Text("Your Progress", style = MaterialTheme.typography.titleMedium)
             Text(
@@ -334,12 +335,14 @@ private fun GamificationCard(
             Text(
                 text = "${game.totalXp} XP total",
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onPrimary
             )
 
             LinearProgressIndicator(
                 progress = { game.levelProgress },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                trackColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+                color = MaterialTheme.colorScheme.primary
             )
 
             Text(
@@ -351,39 +354,11 @@ private fun GamificationCard(
                 style = MaterialTheme.typography.bodySmall
             )
 
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                Surface(color = MaterialTheme.colorScheme.surfaceContainerHighest, shape = MaterialTheme.shapes.small) {
-                    Text(
-                        text = "+${game.streakBonusXp} streak XP",
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                        style = MaterialTheme.typography.labelSmall
-                    )
-                }
-                Surface(color = MaterialTheme.colorScheme.surfaceContainerHighest, shape = MaterialTheme.shapes.small) {
-                    Text(
-                        text = "-${game.penaltyXp} miss penalty",
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                        style = MaterialTheme.typography.labelSmall
-                    )
-                }
-                if (game.dailyQuestBonusXp > 0) {
-                    Surface(color = MaterialTheme.colorScheme.surfaceContainerHighest, shape = MaterialTheme.shapes.small) {
-                        Text(
-                            text = "+${game.dailyQuestBonusXp} quest XP",
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                            style = MaterialTheme.typography.labelSmall
-                        )
-                    }
-                }
-                if (game.weeklyQuestBonusXp > 0) {
-                    Surface(color = MaterialTheme.colorScheme.surfaceContainerHighest, shape = MaterialTheme.shapes.small) {
-                        Text(
-                            text = "+${game.weeklyQuestBonusXp} weekly chain XP",
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                            style = MaterialTheme.typography.labelSmall
-                        )
-                    }
-                }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                StatPill(text = "+${game.streakBonusXp} streak XP")
+                StatPill(text = "-${game.penaltyXp} miss penalty")
+                if (game.dailyQuestBonusXp > 0) StatPill(text = "+${game.dailyQuestBonusXp} quest XP")
+                if (game.weeklyQuestBonusXp > 0) StatPill(text = "+${game.weeklyQuestBonusXp} weekly chain XP")
             }
 
             Text(
@@ -393,7 +368,7 @@ private fun GamificationCard(
                     "${game.missedHabits} missed check-ins recently. Complete today to recover momentum."
                 },
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             HorizontalDivider()
@@ -403,14 +378,16 @@ private fun GamificationCard(
             Text(
                 text = quest.description,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             LinearProgressIndicator(
                 progress = {
                     if (quest.target <= 0) 0f
                     else (quest.progress.toFloat() / quest.target.toFloat()).coerceIn(0f, 1f)
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                trackColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+                color = MaterialTheme.colorScheme.secondary
             )
             Text(
                 text = if (quest.completed) {
@@ -418,8 +395,7 @@ private fun GamificationCard(
                 } else {
                     "${quest.progress}/${quest.target} progress · Reward ${quest.rewardXp} XP"
                 },
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                style = MaterialTheme.typography.labelMedium
             )
 
             val weekly = state.weeklyQuestChain
@@ -429,7 +405,9 @@ private fun GamificationCard(
                     if (weekly.targetDays <= 0) 0f
                     else (weekly.completedDaysThisWeek.toFloat() / weekly.targetDays.toFloat()).coerceIn(0f, 1f)
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                trackColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+                color = MaterialTheme.colorScheme.tertiary
             )
             Text(
                 text = if (weekly.completed) {
@@ -437,8 +415,7 @@ private fun GamificationCard(
                 } else {
                     "${weekly.completedDaysThisWeek}/${weekly.targetDays} quest days this week · ${weekly.currentStreakDays} day streak"
                 },
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                style = MaterialTheme.typography.labelMedium
             )
         }
     }
@@ -451,12 +428,11 @@ private fun ReminderDiagnosticsCard(
     onRefreshReminderDiagnostics: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Card(
-        modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)
+    GlassCard(
+        modifier = modifier
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
@@ -512,6 +488,20 @@ private fun ReminderDiagnosticsCard(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun StatPill(text: String) {
+    Surface(
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f),
+        shape = MaterialTheme.shapes.small
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
+        )
     }
 }
 
@@ -592,16 +582,15 @@ private fun HabitHomeItem(
     val accentColor = runCatching { Color(parseColor(habit.colorHex)) }
         .getOrElse { MaterialTheme.colorScheme.primary }
 
-    Card(
+    GlassCard(
         modifier = Modifier
             .fillMaxWidth()
-            .animateContentSize(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)
+            .animateContentSize()
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(14.dp),
+                .padding(4.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -624,7 +613,7 @@ private fun HabitHomeItem(
                 Text(
                     text = "Streak: $streakCount day${if (streakCount == 1) "" else "s"}",
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier.padding(top = 4.dp)
                 )
 
