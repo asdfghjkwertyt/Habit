@@ -2,6 +2,7 @@ package com.example.habittracker.widget
 
 import android.content.Context
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.action.ActionParameters
@@ -24,7 +25,6 @@ import androidx.glance.Button
 import androidx.glance.ButtonDefaults
 import androidx.glance.text.Text
 import androidx.glance.unit.ColorProvider
-import androidx.glance.unit.dp
 import com.example.habittracker.domain.model.Habit
 import com.example.habittracker.domain.repository.HabitRepository
 import com.example.habittracker.util.DateUtils
