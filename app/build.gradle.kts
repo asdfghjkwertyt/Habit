@@ -23,6 +23,31 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            val keystore = file("keystore.jks")
+            val storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+            val keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+            val keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+
+            val hasReleaseSecrets = keystore.exists() &&
+                !storePassword.isNullOrBlank() &&
+                !keyAlias.isNullOrBlank() &&
+                !keyPassword.isNullOrBlank()
+
+            if (hasReleaseSecrets) {
+                // Use provided release keystore (e.g. via GitHub secrets)
+                this.storeFile = keystore
+                this.storePassword = storePassword
+                this.keyAlias = keyAlias
+                this.keyPassword = keyPassword
+            }
+            // If secrets are missing we intentionally leave this config empty;
+            // the release build type will fall back to the debug signing config
+            // so CI builds never fail due to absent keystore secrets.
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -30,16 +55,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
-        }
-    }
-
-    signingConfigs {
-        create("release") {
-            storeFile = file("keystore.jks")
-            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
-            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
-            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+            val releaseSigning = signingConfigs.getByName("release")
+            signingConfig = if (releaseSigning.storeFile != null) {
+                releaseSigning
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 
