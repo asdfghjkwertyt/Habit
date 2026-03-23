@@ -235,3 +235,4 @@ fun HabitNavGraph(modifier: Modifier = Modifier) {
         }
     }
 }
+}
